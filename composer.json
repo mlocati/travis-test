@@ -1,0 +1,14 @@
+{
+	"name": "mlocati/travis-test",
+	"require": {
+		"phpunit/phpunit": "^4"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"TravisTest\\Tests\\": "test/tests/"
+		}
+	},
+	"scripts": {
+		"test": "phpunit"
+	}
+}
