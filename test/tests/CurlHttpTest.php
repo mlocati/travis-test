@@ -42,13 +42,13 @@ class CurlHttpTest extends PHPUnit_Framework_TestCase
             }
         } else {
             $curlVersion = curl_version();
-            if (version_compare('7.34.0', $curlVersion['version']) >= 0 && version_compare('7.61.0', $curlVersion['version']) >= 0) {
+            if (version_compare($curlVersion['version'], '7.34.0') >= 0 && version_compare($curlVersion['version'], '7.61.0') <= 0) {
                 // Manually checked that CURL_SSLVERSION_TLSv1_1 is 5 for any version of curl from 7.34.0 to 7.61.0
                 if (!@curl_setopt($curl, CURLOPT_SSLVERSION, 5)) {
                     throw new Exception('curl_setopt(CURLOPT_SSLVERSION) failed.');
                 }
             } else {
-                $this->markTestSkipped('Unsupported curl version: ' . $curlVersion['version']);
+                throw new Exception('Unsupported curl version: ' . $curlVersion['version']);
             }
         }
         $response = @curl_exec($curl);
