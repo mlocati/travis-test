@@ -18,7 +18,7 @@ class CurlHttpTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider fetchHttpProvider
      */
-    public function testFetchHttps($path)
+    public function testFetchHttp($path)
     {
         if (!function_exists('curl_init')) {
             $this->markTestSkipped('curl PHP extension is not installed.');
@@ -37,8 +37,16 @@ class CurlHttpTest extends PHPUnit_Framework_TestCase
             throw new Exception('curl_setopt(CURLOPT_FOLLOWLOCATION) failed.');
         }
         if (defined('CURL_SSLVERSION_TLSv1_1')) {
-            if (!@curl_setopt($curl, CURLOPT_SSLVERSION,  CURL_SSLVERSION_TLSv1_1)) {
+            if (!@curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_1)) {
                 throw new Exception('curl_setopt(CURLOPT_SSLVERSION) failed.');
+            }
+        } else {
+            $curlVersion = curl_version();
+            if (version_compare('7.34.0', $curlVersion['version']) >= 0 && version_compare('7.61.0', $curlVersion['version']) >= 0) {
+                // Manually checked that CURL_SSLVERSION_TLSv1_1 is 5 for any version of curl from 7.34.0 to 7.61.0
+                if (!@curl_setopt($curl, CURLOPT_SSLVERSION, 5)) {
+                    throw new Exception('curl_setopt(CURLOPT_SSLVERSION) failed.');
+                }
             }
         }
         $response = @curl_exec($curl);
