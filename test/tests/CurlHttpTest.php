@@ -47,6 +47,8 @@ class CurlHttpTest extends PHPUnit_Framework_TestCase
                 if (!@curl_setopt($curl, CURLOPT_SSLVERSION, 5)) {
                     throw new Exception('curl_setopt(CURLOPT_SSLVERSION) failed.');
                 }
+            } else {
+                $this->markTestSkipped('Unsupported curl version: ' . $curlVersion['version']);
             }
         }
         $response = @curl_exec($curl);
