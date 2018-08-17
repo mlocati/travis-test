@@ -36,8 +36,8 @@ class CurlHttpTest extends PHPUnit_Framework_TestCase
         if (!@curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true)) {
             throw new Exception('curl_setopt(CURLOPT_FOLLOWLOCATION) failed.');
         }
-        if (defined('CURL_SSLVERSION_TLSv1')) {
-            if (!@curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1)) {
+        if (defined('CURL_SSLVERSION_TLSv1_1')) {
+            if (!@curl_setopt($curl, CURLOPT_SSLVERSION,  CURL_SSLVERSION_TLSv1_1)) {
                 throw new Exception('curl_setopt(CURLOPT_SSLVERSION) failed.');
             }
         }
